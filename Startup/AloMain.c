@@ -18,7 +18,7 @@
 
 void alostart(multiboot_info_t* info) { 
 	terminal_initialize(); 
-	if (!getbit((uint8_t)info->flags, 0)) {
+	if (getbit((uint8_t*)&info->flags, 0) == 0) {
 		panic("Computer not supported: memory cannot be detected through grub!"); 
 	}; 
 	for (int i = 1; i <= 40; i++) { 
@@ -26,11 +26,7 @@ void alostart(multiboot_info_t* info) {
 		terminal_putstring("More will come of this.\n");
 		//printf("My name is %s. I am %d years old.", "Alex", 13);
 	}; 	
-	
-	terminal_setcolortoall(makecolor(COLOR_GREEN, COLOR_BROWN)); 
-	//panic("PANIC TEST"); 	
 	terminal_putstring("End."); 
-	//reboot(); 
 }; 
 
 
