@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include "TypeByte.h" 
+#include "StringNumberConversion.h"
 
 typedef enum vga_color { 
 	COLOR_BLACK = 0, 

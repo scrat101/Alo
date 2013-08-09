@@ -1,6 +1,3 @@
-.intel_syntax noprefix
-#This assembly code has the header that lets GRUB recognize us as a kernel, sets up a stack, calls alomain, and if it returns, goes in an infinite loop. 
-
     .set ALIGN, 1<<0 
     .set MEMINFO, 1<<1 
     .set FLAGS, ALIGN | MEMINFO
@@ -15,19 +12,17 @@
     
     .section .bootstrap_stack 
     
-	#This creates a stack
     stack_bottom: 
     .skip 16384 
     stack_top: 
     
-	#Entry point for the operating system
     .section .text 
 	.global _start 
 	.type _start, @function
     
     _start: 
     	
-    	mov esp, stack_top  #Esp is used by C as a pointer to the stack, so when our C code is called, the stack will be operational. 
+    	movl $stack_top, %esp 
     	
     	call alostart 
     	

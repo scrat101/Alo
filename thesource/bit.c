@@ -12,7 +12,7 @@ void togglebit(byte* thebyte, size_t bitindex) {
 	*thebyte ^= (1 << bitindex); 
 }; 
 
-size_t getbit(byte* thebyte, size_t bitindex) { 
-	return ((*thebyte & (1 << bitindex)) >> bitindex); 
+bool getbit(byte thebyte, size_t bitindex) { 
+	return ((thebyte & (1 << bitindex)) >> bitindex); 
 }; 
 
