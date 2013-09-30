@@ -11,7 +11,8 @@
 //#include "../include/memory.h"  
 #include "../include/NewGDT.h" 
 #include "../include/interrupts.h"
-
+#include "../include/StringNumberConversion.h"
+#include "../include/RegisterHandling.h"
  
 /*void reboot(void) { 
 	((void (*)(void))(120))();
@@ -40,22 +41,37 @@ void gdt_init() {
 	assignGDT(thebeginninggdt, thegdt, &testptr, false); 
 }; */
 
-
-void alostart(multiboot_info_t* meminfo) { 
+void BasicSystemInitialization(multiboot_info_t* bootinfo) { 
 	terminal_initialize();
-	for (int i = 0; i < 90000;  i++);
-	setbit((EightBytes)meminfo->flags, 0);
-	/*if (!getbit((EightBytes)meminfo->flags, 0)) {
-		panic("Computer not supported: memory cannot be detected through grub!"); 
-	};*/
 	gdt_init(); 
 	interrupts_init();
-	for (int i = 1; i <= 40; i++) { 
-		terminal_putstring("Hello, grand kernel world! :) :)\n");
-		terminal_putstring("More will come of this.\n");
-		//printf("My name is %s. I am %d years old.", "Alex", 13);
-	}; 	
+	keyboard_init(); 
+}; 	
+
+void alostart(multiboot_info_t* bootinfo, uint32_t magicnumber) { 
+	int testnum = atoi("13", 10);
+	uint8_t storage[256];
+	BasicSystemInitialization(bootinfo); 
+	if (!getbit((EightBytes)bootinfo->flags, 0)) {
+		panic("Computer not supported: memory cannot be detected through grub!"); 
+	};
+	terminal_putstring("Hello, grand kernel world! :) :)\n");
+	terminal_putstring("More will come of this.\n");
+	printf("My name is %s. I am %d years old.", "Alex", 13);
+	printf("%d in binary is %b.", 13, 13); 
+	printf("%d in hexadecimal is %h.", 13, 13);
+	printf("atoi(\"13\") = %d.", testnum); 
+	printf("meminfo->flags = %b.", bootinfo->flags);  	
+	printf("Enter number :"); 
+	printf("ESP: %d.", getESP());
+	printf("Input: %s", (const char*)getstr(storage));
+	//keyboardEnableFreeTyping();
+	//char letter = getchar();
+	//int res = atoi(&letter, 10);
+	/*printf("%d + %d = %d.", res, 4, atoi(res + 4, 10)); 
+	keyboardsetLEDs(true, true, true);
 	terminal_putstring("End."); 
+	*/
 }; 
 
 

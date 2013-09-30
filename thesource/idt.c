@@ -8,8 +8,8 @@ void setidtdescriptor(int num, uint32_t base, uint16_t sel, uint8_t flags) {
 	theidt[num].flags = flags; 
 }; 
 
-void SetIDTPtrToIDT(idtentry* idt, idtptr* ouridtptr, int numberofentries) {
-	ouridtptr->base = idt; 
+void SetIDTPtrToIDT(idtentry* ouridt, idtptr* ouridtptr, int numberofentries) {
+	ouridtptr->base = (uint32_t)ouridt; 
 	ouridtptr->size = (sizeof(idtentry) * numberofentries) - 1; 
 }; 	
 

@@ -1,7 +1,11 @@
+#ifndef ioport
+#define ioport
 #include <stdint.h> 
 
-static inline void outb(uint8_t port, uint8_t theval); 
+inline void outb(uint16_t port, uint8_t theval); 
 
-static inline uint8_t inb(uint8_t port); 
+inline uint8_t inb(uint16_t port); 
 
-static inline void io_wait(void); 
+inline void io_wait(void); 
+
+#endif

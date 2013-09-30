@@ -102,13 +102,34 @@ void printf(const char *str, ...) {
 			const char nextone = str[p + 1]; 
 			if (nextone == '%') { 
 				terminal_putchar('%');
-			}; 
-			if (nextone == 's') { 
+			}
+			else if (nextone == 's') { 
 				terminal_putstring(va_arg(arglist,  const char*)); 
-			};
-			if (nextone == 'd') { 		
-				terminal_putstring(integertochar(va_arg(arglist, int), "                  ")); 
-			}; 
+			}
+			else if (nextone == 'd') { 		
+				// As of right now, we have no method of dynamic allocation, and thus must unfortunately have an array of considerable size and hope it's enough. 
+				//But I think 128 digits is plenty for now, considering that a number that is 64 bits long can only go as far as 20 digits!
+				char theletters[128];
+				if (itoa(va_arg(arglist, int), 10, theletters)) { 
+					terminal_putstring(theletters);
+				};
+			} 
+			else if (nextone == 'b') { 
+				char theletters[128];
+				if (itoa(va_arg(arglist, int), 2, theletters)) { 
+					terminal_putstring(theletters); 
+				};
+			} 
+			else if (nextone == 'h') { 
+				char theletters[128];
+				if (itoa(va_arg(arglist, int), 16, theletters)) { 
+					terminal_putstring(theletters);
+				};
+			}	
+			else { 
+				terminal_putchar("%");
+				terminal_putchar(nextone);
+			}; 	
 			p++;
 			p++;
 		} 

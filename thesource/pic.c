@@ -21,45 +21,45 @@ void disable_pic(void) {
 
 void pic_sendEOI(uint8_t irq) { 
 	if (irq >= 8) { 
-		outb(PIC2_COMMAND, PIC_EOI); 
+		outb(PIC2_COMMANDPORT, PIC_EOI); 
 	}; 
-	outb(PIC1_COMMAND, PIC_EOI);  
+	outb(PIC1_COMMANDPORT, PIC_EOI);  
 }; 
 
 void pic_map(uint8_t offset) { 
 	uint8_t info1, info2; 
 	
-	info1 = inb(PIC1_DATA); 
-	info2 = inb(PIC2_DATA); 
+	info1 = inb(PIC1_DATAPORT); 
+	info2 = inb(PIC2_DATAPORT); 
 	
 	/* Signal the PICs to start their initialization sequence. */
-	outb(PIC1_COMMAND, 0x11); 
+	outb(PIC1_COMMANDPORT, 0x11); 
 	io_wait(); /* The io_wait stuff is to give time for the PIC to process the commands before we proceed. */
-	outb(PIC2_COMMAND, 0x11); 
+	outb(PIC2_COMMANDPORT, 0x11); 
 	io_wait(); 
 	
 	/* Now where the interrupts are mapped */ 
-	outb(PIC1_DATA, offset); 
+	outb(PIC1_DATAPORT, offset); 
 	io_wait(); 
-	outb(PIC2_DATA, offset + 8); 
+	outb(PIC2_DATAPORT, offset + 8); 
 	io_wait(); 
 	
 	/*  Tell that master PIC which IRQ is to be used to interact with the slave PIC and tell the slave its cascade identity */ 
-	outb(PIC1_DATA, 4); 
+	outb(PIC1_DATAPORT, 4); 
 	io_wait(); 
-	outb(PIC2_DATA, 2); 
+	outb(PIC2_DATAPORT, 2); 
 	io_wait(); 
 	
 	
-	outb(PIC1_COMMAND, MODE_8086); 
+	outb(PIC1_DATAPORT, MODE_8086); 
 	io_wait(); 
-	outb(PIC1_COMMAND, MODE_8086); 
-	io_wait(); 
+	outb(PIC1_DATAPORT, MODE_8086); 
+	io_wait();
 	
 	/* Now restore the saved masks (although if this is called as part of system initialization, it's pointless to do so */ 
 	
-	outb(PIC1_DATA, info1);
-	outb(PIC2_DATA, info2); 
+	outb(PIC1_DATAPORT, info1);
+	outb(PIC2_DATAPORT, info2); 
 	
 	/* We're done! */ 
 }; 
@@ -69,14 +69,14 @@ void Mask_Interrupt_Line(uint8_t line) {
 	uint16_t res; 
 	
 	if (line >= 8) { 
-		port = PIC2_DATA; 
+		port = PIC2_DATAPORT; 
 		line = line - 8; 
 	} 
 	else { 
-		port = PIC1_DATA; 
+		port = PIC1_DATAPORT; 
 	}; 
 	res = inb(port); 
-	setbit(&res, line); 
+	setbitTwo(&res, line); 
 	outb(port, res); 
 }; 
 	
@@ -86,14 +86,14 @@ void Demask_Interrupt_Line(uint8_t line) {
 	uint16_t res; 
 	
 	if (line >= 8) { 
-		port = PIC2_DATA; 
+		port = PIC2_DATAPORT; 
 		line = line - 8; 
 	} 
 	else { 
-		port = PIC1_DATA; 
+		port = PIC1_DATAPORT; 
 	}; 
 	res = inb(port); 
-	clearbit(&res, line); 
+	clearbitTwo(&res, line); 
 	outb(port, res); 
 };
 

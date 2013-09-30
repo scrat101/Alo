@@ -1,3 +1,6 @@
+#ifndef pic
+#define pic
+#include "bit.h"
 #include "ioport.h" 
 #include <stdint.h> 
 
@@ -6,7 +9,7 @@
 #define PIC1_COMMANDPORT PIC1 
 #define PIC1_DATAPORT (PIC1+1) 
 #define PIC2_COMMANDPORT PIC2 
-#define PIC2_COMMANDPORT (PIC2+1) 
+#define PIC2_DATAPORT (PIC2+1) 
 #define PIC_EOI 0x20
 #define MODE_8086 0x01 
 #define PIC_READ_IRR 0x0A 
@@ -29,3 +32,5 @@ void Mask_Interrupt_Line(uint8_t line);
 void Demask_Interrupt_Line(uint8_t line); 
 
 void pic_init(void);
+
+#endif

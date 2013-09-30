@@ -1,3 +1,5 @@
+#ifndef idt
+#define idt
 #include <stdint.h>
 #include "IDTPtrAndSetup.h" 
 
@@ -21,3 +23,4 @@ void SetIDTPtrToIDT(idtentry* idt, idtptr* ouridtptr, int numberofentries);
 void SetIDTToZeros(void); 
 
 void idt_init(void); 
+#endif

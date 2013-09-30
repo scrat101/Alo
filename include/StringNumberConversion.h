@@ -3,11 +3,19 @@
 
 #include <stdbool.h>
 #include <stddef.h> 
+#include <stdint.h>
+#include "CoreFunctions.h"
 
-int abs(int num);
+static int getnumofdigits(int num, int base);
 
-char* integertochar(int num, char* str);
+static int pow(int num, int thepow);
 
+static int findchar(char *thechars, char pattern);
 
+static char* getjustnumdigits(char* thechars, char* res);
+
+int atoi(char* thechars, int base);
+
+char* itoa(int num, int base, char* chars);
 
 #endif 

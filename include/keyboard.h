@@ -1,8 +1,14 @@
+#ifndef keyboard
+#define keyboard
 #include "ioport.h" 
-#include "BasicIO.h"
+#include "CoreFunctions.h"
 #include <stdint.h> 
+#include <stdbool.h>
+#include "idt.h"
+#include "pic.h"
 
-uint8_t keyboard_us[128] =
+
+static uint8_t keyboard_us[128] =
 {
     0,  27, '1', '2', '3', '4', '5', '6', '7', '8',	/* 9 */
   '9', '0', '-', '=', '\b',	/* Backspace */
@@ -40,6 +46,25 @@ uint8_t keyboard_us[128] =
     0,	/* F11 Key */
     0,	/* F12 Key */
     0,	/* All other keys are undefined */
-};		
+};	
+
+static uint8_t currentchar = 0; 	
+
+uint8_t getchar(void); 
+
+uint8_t* getstr(uint8_t* storage);
+
+void keyboardsendcommand(uint8_t com, bool additional, uint8_t val);
+
+uint8_t keyboardgetoutput(void);
+
+void keyboardsetLEDs(bool ScrollLock, bool NumberLock, bool CapsLock);
+
+void keyboardEnableFreeTyping(void);
+
+void keyboardDisableFreeTyping(void);
 
 void keyboardhandler(void);
+
+void keyboard_init(void); 
+#endif

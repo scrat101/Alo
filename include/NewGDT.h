@@ -1,3 +1,5 @@
+#ifndef NewGDT
+#define NewGDT
 #include <stdint.h>
 #include "GDTPtrAndSetup.h"  
 
@@ -21,3 +23,4 @@ void setgdtdescriptor(int num, uint32_t base, uint32_t limit, uint8_t access, ui
 void SetGDTPtrToGDT(gdtdescriptor* gdt, gdtptr* thegdtptr, int numberofentries);
 
 void gdt_init(void);
+#endif
