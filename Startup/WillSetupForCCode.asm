@@ -19,11 +19,7 @@
     stack_bottom: 
     .skip 16384 
     stack_top: 
-    
-	.section .data 
-		Endmessage:	
-			.asciz "End of OS execution; going to infinite loop." 
-	#Entry point for the operating system  
+    #Entry point for the operating system  
     .section .text 
 	.global _start 
 	.type _start, @function
@@ -32,13 +28,11 @@
 	
     	
     	mov esp, stack_top  #Esp is used by C as a pointer to the stack, so when our C code is called, the stack will be operational. 
-		push ebx
-		push eax
+	push ebx
+	push eax
     	call alostart 
-		pop eax 
-		pop ebx 
-    	push [Endmessage] 
-		call printf 
+	pop eax 
+	pop ebx 
     	cli 
     	
     	hang: 
